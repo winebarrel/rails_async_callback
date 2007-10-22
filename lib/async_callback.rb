@@ -1,3 +1,24 @@
+#
+# = async_callback.rb
+#
+# Copyright (c) 2007 SUGAWARA Genki <sgwr_dts@yahoo.co.jp>
+#
+# == Example
+#
+#     class FooController < ApplicationController
+#       def index
+#         AsyncCallback.invoke('foo', 'bar', 'zoo') do |*args|
+#           args.each do |arg|
+#             puts "#{arg}"
+#             sleep 2
+#           end
+#         end
+#
+#         render :text => 'hello'
+#       end
+#     end
+#
+
 if defined?(AsyncCallback)
   AsyncCallback.stop
 end
