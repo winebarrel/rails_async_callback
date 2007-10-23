@@ -1,0 +1,34 @@
+RailsAsyncCallback
+==================
+
+Adds asynchronous callback to Rails.
+
+== Copyright
+
+ Copyright (c) 2007 SUGAWARA Genki <sgwr_dts@yahoo.co.jp>
+
+== Example
+
+class FooController < ApplicationController
+  def index
+
+    # asynchronous callback
+    RailsAsyncCallback.invoke('foo', 'bar', 'zoo') do |*args|
+      args.each do |arg|
+        puts arg
+        sleep 2
+      end
+    end
+
+    # for ActiveRecord
+    RailsAsyncCallback.invoke(Book) do |book_class|
+                             #~~~~AR Class
+      book_class.find(:all).each do |book|
+        puts book
+        sleep 2
+      end
+    end
+
+    render :text => 'hello'
+  end
+end

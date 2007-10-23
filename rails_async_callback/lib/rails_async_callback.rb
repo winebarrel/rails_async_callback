@@ -1,5 +1,5 @@
 #
-# = async_callback.rb
+# = rails_async_callback.rb
 #
 # Copyright (c) 2007 SUGAWARA Genki <sgwr_dts@yahoo.co.jp>
 #
@@ -7,21 +7,17 @@
 #
 #     class FooController < ApplicationController
 #       def index
-#         AsyncCallback.invoke('foo', 'bar', 'zoo') do |*args|
+#
+#         # asynchronous callback
+#         RailsAsyncCallback.invoke('foo', 'bar', 'zoo') do |*args|
 #           args.each do |arg|
-#             puts "#{arg}"
+#             puts arg
 #             sleep 2
 #           end
 #         end
 #
-#         render :text => 'hello'
-#       end
-#     end
-#
-#     # for ActiveRecord
-#     class FooController < ApplicationController
-#       def index
-#         AsyncCallback.invoke(Book) do |book_class|
+#         # for ActiveRecord
+#         RailsAsyncCallback.invoke(Book) do |book_class|
 #           book_class.find(:all).each do |book|
 #             puts book
 #             sleep 2
@@ -33,11 +29,11 @@
 #     end
 #
 
-if defined?(AsyncCallback)
-  AsyncCallback.stop
+if defined?(RailsAsyncCallback)
+  RailsAsyncCallback.stop
 end
 
-class AsyncCallback
+class RailsAsyncCallback
   @@queue = Queue.new
 
   Thread.fork do

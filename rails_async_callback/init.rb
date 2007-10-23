@@ -1,1 +1,1 @@
-require_dependency 'async_callback'
+require_dependency 'rails_async_callback.rb'
