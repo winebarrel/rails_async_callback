@@ -3,10 +3,6 @@ rails_async_callback
 
 Adds asynchronous callback to Rails.
 
-== Copyright
-
- Copyright (c) 2007 SUGAWARA Genki <sgwr_dts@yahoo.co.jp>
-
 == Example
 
 class FooController < ApplicationController
@@ -32,3 +28,7 @@ class FooController < ApplicationController
     render :text => 'hello'
   end
 end
+
+== Copyright
+
+Copyright (c) 2007 SUGAWARA Genki <sgwr_dts@yahoo.co.jp>
