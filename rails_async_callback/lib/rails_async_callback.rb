@@ -35,11 +35,23 @@ end
 
 class RailsAsyncCallback
   @@queue = Queue.new
+  @@error_handler = nil
 
   Thread.fork do
     while func_args = @@queue.pop
       func, args = func_args
-      Thread.fork { func.call(*args) }
+
+      Thread.fork do
+        begin
+          func.call(*args)
+        rescue Exception => e
+          if @@error_handler
+            @@error_handler.call(e)
+          elsif @@error_handler != false
+            puts_exception(e)
+          end
+        end
+      end
     end
   end
 
@@ -50,4 +62,17 @@ class RailsAsyncCallback
   def self.stop
     @@queue.push(nil)
   end
+
+  def self.set_error_handler(&block)
+    @@error_handler = block
+  end
+
+  def self.puts_exception(e, out = $stderr)
+    backtrace = e.backtrace
+    head = "#{backtrace.first}: #{e.message} (#{e.class})"
+    rest = backtrace.slice(1..-1).map {|i| "\tfrom #{i}" }
+    out.puts(([head] + rest).join($/))
+  end
+
+  private_class_method :puts_exception
 end
